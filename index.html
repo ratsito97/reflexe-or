@@ -593,6 +593,102 @@ if('serviceWorker' in navigator){
 
 <script src="./data.js"></script>
 <script>
+
+// ── Export Fiche PDF ──
+function exportPDF(){
+  var sel = getSelected();
+  if(!sel.length){ toast("Cochez au moins un Quick Win"); return; }
+
+  var now = new Date().toLocaleDateString("fr-FR");
+  var body = "";
+
+  sel.forEach(function(q, idx){
+    var nom   = q.nom||q.n||"";
+    var amb   = q.ambassadeur||q.a||"";
+    var eq    = q.equipe||q.eq||"";
+    var st    = q.statut||"En cours";
+    var th    = q.thematique||q.th||"";
+    var d1    = q.date_debut||q.d1||"";
+    var d2    = q.date_fin||q.d2||"";
+    var desc  = q.description||q.ds||"";
+    var ind   = q.indicateurs||q.ind||"";
+    var av    = q.photo_avant||q.av||"";
+    var ap    = q.photo_apres||q.ap||"";
+    var dt    = q.created_at ? new Date(q.created_at).toLocaleDateString("fr-FR") : (q.dt||"");
+    var stCol = st==="Valide"?"#0F6E56": st==="Realise"?"#27ae60":"#e67e22";
+
+    body += '<div class="card">';
+    body += '<div class="card-header">';
+    body += '<div class="card-num">QW ' + (idx+1) + '</div>';
+    body += '<div class="card-title">' + nom + '</div>';
+    body += '<div class="card-statut" style="background:' + stCol + '">' + st + '</div>';
+    body += '</div>';
+    body += '<table class="info-table">';
+    if(amb) body += '<tr><td>Ambassadeur</td><td>' + amb + '</td></tr>';
+    if(eq)  body += '<tr><td>Equipe</td><td>' + eq + '</td></tr>';
+    if(th)  body += '<tr><td>Thematique</td><td>' + th + '</td></tr>';
+    if(d1)  body += '<tr><td>Periode</td><td>' + d1 + (d2?" au "+d2:"") + '</td></tr>';
+    if(dt)  body += '<tr><td>Ajoute le</td><td>' + dt + '</td></tr>';
+    body += '</table>';
+    if(desc) body += '<div class="section-label">Description</div><div class="desc">' + desc + '</div>';
+    if(ind)  body += '<div class="section-label">Indicateurs</div><div class="indic">' + ind + '</div>';
+    if(av||ap){
+      body += '<div class="section-label">Photos</div><div class="photos">';
+      if(av) body += '<div class="photo-block"><div class="photo-label">AVANT</div><img src="' + av + '"></div>';
+      if(ap) body += '<div class="photo-block"><div class="photo-label">APRES</div><img src="' + ap + '"></div>';
+      body += '</div>';
+    }
+    body += '</div>';
+    if(idx < sel.length-1) body += '<div style="page-break-after:always"></div>';
+  });
+
+  var doc = '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">'
+    + '<title>Fiches Quick Wins - Reflexe Or</title><style>'
+    + 'body{font-family:Arial,sans-serif;color:#1a1a1a;margin:0;padding:0}'
+    + '.header{background:#0F3D2E;color:#fff;padding:20px 24px;text-align:center}'
+    + '.header h1{font-size:18px;margin:0 0 4px}'
+    + '.header p{font-size:12px;opacity:.7;margin:0}'
+    + '.no-print{background:#fff3cd;padding:12px 20px;font-size:13px;color:#856404;border-bottom:1px solid #ffc107}'
+    + '.card{padding:20px 24px;border-bottom:2px solid #e0e0e0}'
+    + '.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}'
+    + '.card-num{background:#F0C040;color:#1a1a1a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}'
+    + '.card-title{font-size:16px;font-weight:700;color:#0F3D2E;flex:1}'
+    + '.card-statut{color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}'
+    + '.info-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:12px}'
+    + '.info-table td{padding:5px 8px;border:1px solid #e0e0e0}'
+    + '.info-table td:first-child{font-weight:700;color:#555;width:28%;background:#f9f9f9}'
+    + '.section-label{font-size:11px;font-weight:700;color:#0F6E56;text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px}'
+    + '.desc{font-size:12px;line-height:1.6;background:#f9f9f9;padding:10px;border-radius:6px;border-left:3px solid #0F6E56;margin-bottom:8px}'
+    + '.indic{font-size:12px;line-height:1.6;background:#fffbe6;padding:10px;border-radius:6px;border-left:3px solid #F0C040;margin-bottom:8px}'
+    + '.photos{display:flex;gap:16px;margin-top:6px}'
+    + '.photo-block{flex:1;text-align:center}'
+    + '.photo-label{font-size:10px;font-weight:700;color:#0F6E56;margin-bottom:5px;text-transform:uppercase}'
+    + '.photo-block img{width:100%;max-height:200px;object-fit:cover;border-radius:6px;border:1px solid #e0e0e0}'
+    + '@media print{.no-print{display:none}.header,.card-statut,.card-num,.desc,.indic{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'
+    + '</style></head><body>'
+    + '<div class="header"><h1>Fiches Quick Wins - Projet Reflexe Or</h1>'
+    + '<p>EIC Rhone-Alpes - SNCF Reseau - Exporte le ' + now + ' - ' + sel.length + ' fiche' + (sel.length>1?"s":"") + '</p></div>'
+    + '<div class="no-print">Appuyez sur <strong>Ctrl+P</strong> pour imprimer ou sauvegarder en PDF.</div>'
+    + body
+    + '</body></html>';
+
+  var w = window.open("","_blank");
+  if(w){
+    w.document.write(doc);
+    w.document.close();
+    setTimeout(function(){ w.focus(); }, 500);
+  } else {
+    var blob = new Blob([doc],{type:"text/html;charset=utf-8"});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement("a");
+    a.href   = url;
+    a.download = "Fiches_QW_" + now.replace(/\//g,"-") + ".html";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  toast("Fiche generee - " + sel.length + " Quick Win" + (sel.length>1?"s":""));
+}
+
 // ── Démarrage ──
 function startApp(){
   if(typeof APP_DATA !== 'undefined'){
@@ -980,7 +1076,7 @@ function ca(){
 
 
 // ── Connexion / Sécurité ──
-var CURRENT_USER = JSON.parse(localStorage.getItem('current_user')||'null');
+var CURRENT_USER = null; // Toujours demander la connexion au démarrage
 
 function showLoginScreen(){
   var overlay = document.getElementById('login-overlay');
@@ -1014,7 +1110,7 @@ function logout(){
   if(confirm("Se deconnecter ?")){
     CURRENT_USER=null;
     localStorage.removeItem('current_user');
-    showLoginScreen();
+    location.reload();
   }
 }
 
@@ -1204,6 +1300,102 @@ async function exportXLS(){
   a.click();
   URL.revokeObjectURL(url);
   toast("CSV exporté - " + sel.length + " Quick Win" + (sel.length>1?"s":""));
+}
+
+
+// ── Export Fiche PDF ──
+function exportPDF(){
+  var sel = getSelected();
+  if(!sel.length){ toast("Cochez au moins un Quick Win"); return; }
+
+  var now = new Date().toLocaleDateString("fr-FR");
+  var body = "";
+
+  sel.forEach(function(q, idx){
+    var nom   = q.nom||q.n||"";
+    var amb   = q.ambassadeur||q.a||"";
+    var eq    = q.equipe||q.eq||"";
+    var st    = q.statut||"En cours";
+    var th    = q.thematique||q.th||"";
+    var d1    = q.date_debut||q.d1||"";
+    var d2    = q.date_fin||q.d2||"";
+    var desc  = q.description||q.ds||"";
+    var ind   = q.indicateurs||q.ind||"";
+    var av    = q.photo_avant||q.av||"";
+    var ap    = q.photo_apres||q.ap||"";
+    var dt    = q.created_at ? new Date(q.created_at).toLocaleDateString("fr-FR") : (q.dt||"");
+    var stCol = st==="Valide"?"#0F6E56": st==="Realise"?"#27ae60":"#e67e22";
+
+    body += '<div class="card">';
+    body += '<div class="card-header">';
+    body += '<div class="card-num">QW ' + (idx+1) + '</div>';
+    body += '<div class="card-title">' + nom + '</div>';
+    body += '<div class="card-statut" style="background:' + stCol + '">' + st + '</div>';
+    body += '</div>';
+    body += '<table class="info-table">';
+    if(amb) body += '<tr><td>Ambassadeur</td><td>' + amb + '</td></tr>';
+    if(eq)  body += '<tr><td>Equipe</td><td>' + eq + '</td></tr>';
+    if(th)  body += '<tr><td>Thematique</td><td>' + th + '</td></tr>';
+    if(d1)  body += '<tr><td>Periode</td><td>' + d1 + (d2?" au "+d2:"") + '</td></tr>';
+    if(dt)  body += '<tr><td>Ajoute le</td><td>' + dt + '</td></tr>';
+    body += '</table>';
+    if(desc) body += '<div class="section-label">Description</div><div class="desc">' + desc + '</div>';
+    if(ind)  body += '<div class="section-label">Indicateurs</div><div class="indic">' + ind + '</div>';
+    if(av||ap){
+      body += '<div class="section-label">Photos</div><div class="photos">';
+      if(av) body += '<div class="photo-block"><div class="photo-label">AVANT</div><img src="' + av + '"></div>';
+      if(ap) body += '<div class="photo-block"><div class="photo-label">APRES</div><img src="' + ap + '"></div>';
+      body += '</div>';
+    }
+    body += '</div>';
+    if(idx < sel.length-1) body += '<div style="page-break-after:always"></div>';
+  });
+
+  var doc = '<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">'
+    + '<title>Fiches Quick Wins - Reflexe Or</title><style>'
+    + 'body{font-family:Arial,sans-serif;color:#1a1a1a;margin:0;padding:0}'
+    + '.header{background:#0F3D2E;color:#fff;padding:20px 24px;text-align:center}'
+    + '.header h1{font-size:18px;margin:0 0 4px}'
+    + '.header p{font-size:12px;opacity:.7;margin:0}'
+    + '.no-print{background:#fff3cd;padding:12px 20px;font-size:13px;color:#856404;border-bottom:1px solid #ffc107}'
+    + '.card{padding:20px 24px;border-bottom:2px solid #e0e0e0}'
+    + '.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}'
+    + '.card-num{background:#F0C040;color:#1a1a1a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}'
+    + '.card-title{font-size:16px;font-weight:700;color:#0F3D2E;flex:1}'
+    + '.card-statut{color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px}'
+    + '.info-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:12px}'
+    + '.info-table td{padding:5px 8px;border:1px solid #e0e0e0}'
+    + '.info-table td:first-child{font-weight:700;color:#555;width:28%;background:#f9f9f9}'
+    + '.section-label{font-size:11px;font-weight:700;color:#0F6E56;text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px}'
+    + '.desc{font-size:12px;line-height:1.6;background:#f9f9f9;padding:10px;border-radius:6px;border-left:3px solid #0F6E56;margin-bottom:8px}'
+    + '.indic{font-size:12px;line-height:1.6;background:#fffbe6;padding:10px;border-radius:6px;border-left:3px solid #F0C040;margin-bottom:8px}'
+    + '.photos{display:flex;gap:16px;margin-top:6px}'
+    + '.photo-block{flex:1;text-align:center}'
+    + '.photo-label{font-size:10px;font-weight:700;color:#0F6E56;margin-bottom:5px;text-transform:uppercase}'
+    + '.photo-block img{width:100%;max-height:200px;object-fit:cover;border-radius:6px;border:1px solid #e0e0e0}'
+    + '@media print{.no-print{display:none}.header,.card-statut,.card-num,.desc,.indic{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'
+    + '</style></head><body>'
+    + '<div class="header"><h1>Fiches Quick Wins - Projet Reflexe Or</h1>'
+    + '<p>EIC Rhone-Alpes - SNCF Reseau - Exporte le ' + now + ' - ' + sel.length + ' fiche' + (sel.length>1?"s":"") + '</p></div>'
+    + '<div class="no-print">Appuyez sur <strong>Ctrl+P</strong> pour imprimer ou sauvegarder en PDF.</div>'
+    + body
+    + '</body></html>';
+
+  var w = window.open("","_blank");
+  if(w){
+    w.document.write(doc);
+    w.document.close();
+    setTimeout(function(){ w.focus(); }, 500);
+  } else {
+    var blob = new Blob([doc],{type:"text/html;charset=utf-8"});
+    var url  = URL.createObjectURL(blob);
+    var a    = document.createElement("a");
+    a.href   = url;
+    a.download = "Fiches_QW_" + now.replace(/\//g,"-") + ".html";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+  toast("Fiche generee - " + sel.length + " Quick Win" + (sel.length>1?"s":""));
 }
 
 // ── Démarrage ──
