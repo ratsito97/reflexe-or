@@ -205,6 +205,17 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:#fff;
 .ib.on{display:flex}
 @media(max-width:360px){.mg,.kg,.fr,.qph,.gal{grid-template-columns:1fr}}
 </style>
+<script>
+// Désinstaller l'ancien service worker pour forcer le rechargement
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(function(regs){
+    regs.forEach(function(r){ r.unregister(); });
+  });
+  caches.keys().then(function(keys){
+    keys.forEach(function(k){ caches.delete(k); });
+  });
+}
+</script>
 </head>
 <body>
 <div class="toast" id="toast"></div>
@@ -580,7 +591,8 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:#fff;
   </div>
 </div>
 
-<script src="./data.js">
+<script src="./data.js"></script>
+<script>
 // ── Démarrage ──
 function startApp(){
   if(typeof APP_DATA !== 'undefined'){
@@ -600,8 +612,6 @@ if(document.readyState === 'complete'){
   });
 }
 
-</script>
-<script>
 // ── CONFIG SUPABASE (a remplir apres creation du projet) ──
 var SB_URL = 'https://ycreroxqntpfpoynvpjm.supabase.co';
 var SB_KEY = 'sb_publishable_VmDz12423j4MS_3kuhmkmA_OuIgeYlu';
@@ -1196,4 +1206,23 @@ async function exportXLS(){
   toast("CSV exporté - " + sel.length + " Quick Win" + (sel.length>1?"s":""));
 }
 
+// ── Démarrage ──
+function startApp(){
+  if(typeof APP_DATA !== 'undefined'){
+    init();
+  } else {
+    setTimeout(startApp, 100);
+  }
+}
 
+if(document.readyState === 'complete'){
+  setTimeout(startApp, 50);
+} else {
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(startApp, 100);
+  });
+}
+
+</script>
+</body>
+</html>
