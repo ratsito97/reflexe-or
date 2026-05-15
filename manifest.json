@@ -2,13 +2,16 @@
   "name": "Réflexe Or - Fiche Ambassadeur",
   "short_name": "Réflexe Or",
   "description": "Fiche interactive Ambassadeur Environnement - Projet Réflexe Or - EIC Rhône-Alpes SNCF Réseau",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0a2e1a",
   "theme_color": "#0F3D2E",
   "orientation": "portrait-primary",
   "lang": "fr",
-  "categories": ["education", "utilities"],
+  "categories": [
+    "education",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "/favicon.png",
@@ -40,14 +43,25 @@
       "short_name": "Quick Wins",
       "description": "Voir les Quick Wins",
       "url": "/?section=quickwins",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     },
     {
       "name": "Contacts",
       "short_name": "Contacts",
       "description": "Mes interlocuteurs",
       "url": "/?section=reseau",
-      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
-  ]
+  ],
+  "scope": "./"
 }

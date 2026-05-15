@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Reflexe Or">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="./manifest.json">
 <title>Reflexe Or</title>
 <style>
 :root{--g:#0F6E56;--gold:#F0C040;--dark:#071a0f;--bg:#0a2e1a;
@@ -580,7 +580,27 @@ body{font-family:Arial,sans-serif;background:var(--bg);color:#fff;
   </div>
 </div>
 
-<script src="data.js"></script>
+<script src="./data.js">
+// ── Démarrage ──
+function startApp(){
+  if(typeof APP_DATA !== 'undefined'){
+    init();
+  } else {
+    // data.js pas encore chargé, réessayer
+    setTimeout(startApp, 100);
+  }
+}
+
+// Déclencher après chargement complet de la page et de data.js
+if(document.readyState === 'complete'){
+  setTimeout(startApp, 50);
+} else {
+  document.addEventListener('DOMContentLoaded', function(){
+    setTimeout(startApp, 100);
+  });
+}
+
+</script>
 <script>
 // ── CONFIG SUPABASE (a remplir apres creation du projet) ──
 var SB_URL = 'https://ycreroxqntpfpoynvpjm.supabase.co';
@@ -619,6 +639,10 @@ function init(){
 
   rl();
   lp();
+
+  // Masquer le loader
+  var loader = document.getElementById('loader');
+  if(loader) loader.style.display = 'none';
 
   // Initialiser l'écran de connexion
   var loginLogos = document.getElementById('login-logos');
