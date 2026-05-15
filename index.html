@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0F3D2E">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Reflexe Or">
+<link rel="manifest" href="manifest.json">
+<title>Reflexe Or</title>
+<style>
+:root{--g:#0F6E56;--gold:#F0C040;--dark:#071a0f;--bg:#0a2e1a;
+  --card:rgba(255,255,255,0.07);--bdr:rgba(255,255,255,0.15);
+  --txt:rgba(255,255,255,0.85);--mut:rgba(255,255,255,0.5)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:Arial,sans-serif;background:var(--bg);color:#fff;
+  min-height:100vh;padding-bottom:72px;overflow-x:hidden}
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--dark);
+  border-top:1px solid var(--bdr);display:flex;z-index:800;
+  padding-bottom:env(safe-area-inset-bottom,0)}
+.nb{flex:1;padding:10px 4px 8px;display:flex;flex-direction:column;
+  align-items:center;gap:3px;border:none;background:transparent;
+  color:var(--mut);cursor:pointer;font-size:10px;font-weight:600}
+.nb.on{color:var(--gold)}
+.nb .ni{font-size:22px}
+/* PAGES */
+.pg{display:none;padding:14px 13px}
+.pg.on{display:block}
+/* HEADER */
+.hd{text-align:center;background:var(--card);border:1px solid var(--bdr);
+  border-radius:16px;padding:18px 14px 14px;margin-bottom:12px}
+.logos{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.logos img{height:30px;width:auto}
+.hd h1{color:var(--gold);font-size:16px;font-weight:700;margin-bottom:3px}
+.hd p{color:var(--mut);font-size:11px}
+.sl{color:var(--mut);font-size:10px;font-weight:700;letter-spacing:1.2px;
+  text-transform:uppercase;text-align:center;margin:12px 0 8px}
+/* MENU */
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.mb{background:var(--card);border:1.5px solid var(--bdr);border-radius:12px;
+  padding:14px 10px;cursor:pointer;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:6px;color:#fff}
+.mb:active{background:rgba(255,255,255,0.14);border-color:var(--gold)}
+.mb .ic{font-size:24px}
+.mb .tt{font-size:12px;font-weight:700;color:var(--gold)}
+.mb .sb{font-size:10px;color:var(--mut)}
+/* CONTACTS */
+.cc{display:flex;align-items:center;gap:10px;background:var(--card);
+  border:1px solid var(--bdr);border-radius:12px;padding:11px 13px;margin-bottom:8px}
+.av{width:36px;height:36px;border-radius:50%;flex-shrink:0;font-size:16px;
+  background:linear-gradient(135deg,var(--gold),#C47B1A);
+  display:flex;align-items:center;justify-content:center}
+.cn{font-size:12px;font-weight:700}
+.cr{font-size:10px;color:var(--mut)}
+.cm{font-size:10px;color:#7EC8A0;text-decoration:none;display:block;margin-top:1px}
+/* DOCS */
+.dc{color:var(--gold);font-size:12px;font-weight:700;
+  margin:12px 0 6px;padding-left:4px;border-left:3px solid var(--gold)}
+.di{display:flex;align-items:center;gap:10px;background:var(--card);
+  border:1px solid var(--bdr);border-radius:11px;padding:12px 13px;margin-bottom:7px;cursor:pointer}
+.di:active{background:rgba(255,255,255,0.14);border-color:var(--gold)}
+.dic{font-size:24px;flex-shrink:0}
+.dit{flex:1}
+.dn{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:2px}
+.dd{font-size:10px;color:var(--mut)}
+.tag{font-size:9px;padding:2px 7px;border-radius:8px;flex-shrink:0;font-weight:700}
+.tp{background:rgba(231,76,60,0.2);color:#E74C3C}
+.ti{background:rgba(46,204,113,0.2);color:#2ECC71}
+/* DOC VIEWER */
+.dv{display:none;position:fixed;inset:0;background:#000;z-index:2000;flex-direction:column}
+.dv.on{display:flex}
+.dvh{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:#111;flex-shrink:0}
+.dvt{font-size:13px;font-weight:700;color:#fff;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dvc{width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,0.15);
+  color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dvb{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.dvb img{max-width:100%;border-radius:8px}
+.snav{display:flex;align-items:center;justify-content:center;gap:14px;padding:6px;width:100%}
+.snav button{padding:8px 18px;background:var(--g);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer}
+.snav span{color:var(--mut);font-size:12px}
+.dvf{padding:10px 13px;display:flex;gap:8px;background:#111;flex-shrink:0}
+.bdl,.bcl{flex:1;padding:11px;border-radius:10px;font-size:13px;font-weight:700;
+  cursor:pointer;text-align:center;text-decoration:none;
+  display:flex;align-items:center;justify-content:center;gap:6px;border:none}
+.bdl{background:linear-gradient(135deg,var(--g),#1F8A6A);color:#fff}
+.bcl{background:rgba(255,255,255,0.1);color:#fff;border:1px solid var(--bdr) !important}
+/* QW */
+.qt{display:flex;gap:6px;margin-bottom:10px}
+.qtb{flex:1;padding:9px 6px;border-radius:9px;border:1.5px solid var(--bdr);
+  background:transparent;color:var(--mut);font-size:11px;font-weight:600;cursor:pointer}
+.qtb.on{background:var(--g);border-color:var(--g);color:#fff}
+.qp{display:none}
+.qp.on{display:block}
+/* FILTRES */
+.filters{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.fbtn{padding:5px 10px;border-radius:16px;border:1px solid var(--bdr);
+  background:transparent;color:var(--mut);font-size:11px;cursor:pointer;white-space:nowrap}
+.fbtn.on{background:var(--g);border-color:var(--g);color:#fff}
+/* FORM */
+.fg{margin-bottom:10px}
+.fl{display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.75);
+  margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
+.fi,.ft,.fs{width:100%;padding:11px 13px;background:rgba(255,255,255,0.07);
+  border:1.5px solid var(--bdr);border-radius:9px;color:#fff;
+  font-size:13px;font-family:Arial,sans-serif;outline:none;-webkit-appearance:none}
+.fi:focus,.ft:focus,.fs:focus{border-color:var(--g)}
+.fi::placeholder,.ft::placeholder{color:var(--mut)}
+.ft{resize:vertical;min-height:70px}
+.fs option{background:#0a2e1a;color:#fff}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.uz{border:2px dashed var(--bdr);border-radius:10px;padding:14px;
+  text-align:center;cursor:pointer;margin-bottom:6px}
+.uz:active{border-color:var(--g)}
+.uzi{font-size:26px;margin-bottom:3px}
+.uzt{font-size:11px;color:var(--mut)}
+.prev{width:100%;border-radius:8px;margin-top:5px;display:none;object-fit:cover;max-height:140px}
+.plbl{font-size:10px;color:var(--gold);font-weight:700;text-align:center;margin-top:3px;display:none}
+.bs{width:100%;padding:13px;background:linear-gradient(135deg,var(--g),#1F8A6A);
+  border:none;border-radius:11px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px}
+.bs:active,.bs:disabled{opacity:0.7}
+.bml{width:100%;padding:12px;background:rgba(255,255,255,0.07);
+  border:1.5px solid var(--bdr);border-radius:11px;color:#fff;
+  font-size:13px;font-weight:600;cursor:pointer;margin-top:8px;
+  text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px}
+/* QW LIST */
+.qi{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:13px;margin-bottom:10px}
+.qih{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:6px;gap:8px}
+.qit{font-size:13px;font-weight:700;color:var(--gold);flex:1;line-height:1.4}
+.qdl{background:none;border:none;color:var(--mut);font-size:13px;cursor:pointer;padding:2px}
+.qim{font-size:10px;color:var(--mut);margin-bottom:5px;line-height:1.7}
+.qdesc{font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:5px}
+.qind{background:rgba(240,192,64,0.08);border-left:2px solid var(--gold);
+  border-radius:6px;padding:7px 9px;margin:5px 0;font-size:11px;color:var(--txt)}
+.qph{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:7px}
+.qph>div{display:flex;flex-direction:column;align-items:center;gap:3px}
+.qph img{width:100%;border-radius:7px;object-fit:cover;height:95px}
+.qph .phl{font-size:9px;font-weight:700;color:var(--gold);letter-spacing:0.5px}
+.thbg{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-top:4px;font-weight:600}
+.stbg{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-left:4px;font-weight:600}
+.st-encours{background:rgba(255,165,0,0.2);color:#FFB84D}
+.st-realise{background:rgba(46,204,113,0.2);color:#2ECC71}
+.st-valide{background:rgba(15,110,86,0.3);color:#7EC8A0}
+.es{text-align:center;padding:28px 14px;color:var(--mut)}
+.es .ei{font-size:36px;margin-bottom:8px}
+.es p{font-size:12px}
+.loading-sp{display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,0.2);
+  border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* PROFIL */
+.sr{display:flex;gap:8px;margin:10px 0}
+.sc{flex:1;background:var(--card);border-radius:10px;padding:11px;text-align:center}
+.sv{font-size:22px;font-weight:700;color:var(--gold)}
+.sl2{font-size:10px;color:var(--mut);margin-top:2px}
+/* MODAL */
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.78);
+  z-index:1000;padding:14px;align-items:flex-start;justify-content:center;overflow-y:auto}
+.mo.on{display:flex}
+.mbox{background:#0f2a1a;border:1px solid var(--bdr);border-radius:18px;
+  width:100%;max-width:600px;margin:auto;overflow:hidden}
+.mh{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 16px;background:linear-gradient(135deg,var(--g),#1F4E79)}
+.mh h3{color:#fff;font-size:14px;font-weight:700}
+.mhc{width:28px;height:28px;border-radius:50%;border:none;
+  background:rgba(255,255,255,0.15);color:#fff;font-size:16px;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mb2{padding:16px}
+.mb2 h4{color:var(--gold);font-size:12px;margin:12px 0 7px}
+.mb2 h4:first-child{margin-top:0}
+.mb2 p{color:var(--txt);font-size:12px;line-height:1.7;margin-bottom:7px}
+.mb2 ul{color:var(--txt);font-size:12px;padding-left:16px;margin-bottom:7px}
+.mb2 ul li{margin-bottom:4px}
+.hl{background:rgba(240,192,64,0.1);border-left:3px solid var(--gold);
+  border-radius:7px;padding:9px 11px;margin:9px 0;color:var(--txt);font-size:11px;line-height:1.6}
+.mi{width:100%;border-radius:9px;margin-bottom:10px;object-fit:cover;max-height:160px}
+.kg{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:8px 0}
+.kc{background:var(--card);border-radius:9px;padding:10px;text-align:center}
+.kv{font-size:20px;font-weight:700;color:var(--gold)}
+.kl{font-size:10px;color:var(--mut);margin-top:2px}
+.br{display:flex;flex-wrap:wrap;gap:5px;margin:7px 0}
+.bk{background:rgba(15,110,86,0.3);border:1px solid var(--g);
+  color:#7EC8A0;border-radius:14px;padding:3px 9px;font-size:10px;font-weight:600}
+.stps{margin:7px 0}
+.step{display:flex;gap:9px;margin-bottom:9px;align-items:flex-start}
+.sn{min-width:24px;height:24px;border-radius:50%;flex-shrink:0;margin-top:2px;
+  background:linear-gradient(135deg,var(--g),var(--gold));
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}
+.stx{color:var(--txt);font-size:12px;line-height:1.6}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin:7px 0}
+.gal img{width:100%;border-radius:7px;object-fit:cover;height:90px}
+.prog-table{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px}
+.prog-table th{background:rgba(255,255,255,0.1);color:var(--gold);padding:7px 10px;text-align:left}
+.prog-table td{padding:7px 10px;border-top:1px solid var(--bdr);color:var(--txt)}
+/* TOAST */
+.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);
+  background:var(--g);color:#fff;padding:10px 20px;border-radius:10px;
+  font-size:13px;font-weight:600;z-index:9999;display:none;white-space:nowrap}
+/* INSTALL BANNER */
+.ib{display:none;position:fixed;bottom:72px;left:0;right:0;
+  background:linear-gradient(135deg,#0F3D2E,#1F4E79);
+  padding:10px 13px;align-items:center;justify-content:space-between;
+  z-index:700;border-top:2px solid var(--gold);gap:8px;flex-wrap:wrap}
+.ib.on{display:flex}
+@media(max-width:360px){.mg,.kg,.fr,.qph,.gal{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ACCUEIL -->
+<div class="pg on" id="pg-home">
+  <div class="hd"><div class="logos" id="lg-h"></div><h1>Reflexe Or</h1><p>Faisons vivre le Palier Or au quotidien</p></div>
+  <img id="img-hero" src="" style="width:100%;border-radius:12px;max-height:160px;object-fit:cover;margin-bottom:12px;display:none" alt="">
+  <div style="background:rgba(255,255,255,0.04);border-left:3px solid var(--gold);border-radius:7px;padding:9px 11px;margin-bottom:12px;font-size:11px;color:var(--mut);font-style:italic">"Nous n'héritons pas de la terre de nos parents, nous l'empruntons à nos enfants." - Antoine de Saint-Exupéry</div>
+  <div class="sl">Tout savoir sur mon rôle</div>
+  <div class="mg">
+    <button class="mb" onclick="openM('m1')"><span class="ic">&#10067;</span><span class="tt">Qui Quoi Comment</span><span class="sb">Tout sur l'Ambassadeur</span></button>
+    <button class="mb" onclick="openM('m2')"><span class="ic">&#9889;</span><span class="tt">Les Quick Wins</span><span class="sb">Victoires rapides</span></button>
+    <button class="mb" onclick="openM('m3')"><span class="ic">&#127919;</span><span class="tt">Nos 3 objectifs</span><span class="sb">Stratégie projet</span></button>
+    <button class="mb" onclick="openM('m4')"><span class="ic">&#127942;</span><span class="tt">Label PACTE Or</span><span class="sb">Notre progression</span></button>
+    <button class="mb" onclick="openM('m5')"><span class="ic">&#129309;</span><span class="tt">Mes interlocuteurs</span><span class="sb">Qui contacter</span></button>
+    <button class="mb" onclick="openDoc('infographie','Infographie Projet Reflexe Or')"><span class="ic">&#128196;</span><span class="tt">Infographie</span><span class="sb">Vue d'ensemble</span></button>
+  </div>
+  <div class="sl">Mes contacts</div>
+  <div class="cc"><div class="av">&#127807;</div><div><div class="cn">Tokinirina RATSITOMANDIMBY</div><div class="cr">Chef de projet - Alternante CLE</div><a class="cm" href="mailto:tokinirina.ratsitomandimby@reseau.sncf.fr">tokinirina.ratsitomandimby@reseau.sncf.fr</a></div></div>
+  <div class="cc"><div class="av">&#11088;</div><div><div class="cn">Philippe FOUREL</div><div class="cr">CLE - Responsable Pôle Sécurité</div><a class="cm" href="mailto:philippe.fourel@reseau.sncf.fr">philippe.fourel@reseau.sncf.fr</a></div></div>
+</div>
+
+<!-- DOCUMENTS -->
+<div class="pg" id="pg-docs">
+  <div class="hd"><h1>&#128218; Mes Documents</h1><p>Consultez et téléchargez</p></div>
+  <div class="dc">&#127942; Projet Reflexe Or</div>
+  <div class="di" onclick="openDoc('note','Appel a volontaires Ambassadeur')"><span class="dic">&#128226;</span><div class="dit"><div class="dn">Note Appel a volontaires</div><div class="dd">Devenez Ambassadeur Environnement EIC RA</div></div><span class="tag ti">IMAGE</span></div>
+  <div class="di" onclick="openDoc('flash','Flash EIC RA Palier Or 2026')"><span class="dic">&#128240;</span><div class="dit"><div class="dn">Flash EIC RA Fevrier 2026</div><div class="dd">Obtention du Palier Or PACTE</div></div><span class="tag ti">IMAGE</span></div>
+  <div class="di" onclick="openDoc('infographie','Infographie Projet Reflexe Or')"><span class="dic">&#128196;</span><div class="dit"><div class="dn">Infographie Projet Reflexe Or</div><div class="dd">Vue d\'ensemble du projet</div></div><span class="tag ti">IMAGE</span></div>
+  <div class="dc">&#128203; Engagements Environnementaux</div>
+  <div class="di" onclick="openDoc('politique','Politique Environnementale 2026')"><span class="dic">&#128203;</span><div class="dit"><div class="dn">Politique Environnementale 2026</div><div class="dd">EIC Rhone-Alpes - Objectif Palier Or</div></div><span class="tag ti">IMAGE</span></div>
+  <div class="di" onclick="openDoc('charte','Charte Environnementale 2026')"><span class="dic">&#128196;</span><div class="dit"><div class="dn">Charte Environnementale 2026</div><div class="dd">Nos 10 engagements terrain quotidiens</div></div><span class="tag ti">IMAGE</span></div>
+  <div class="di" onclick="openDoc('rqpe','Les 9 RQPE - SNCF Reseau')"><span class="dic">&#128202;</span><div class="dit"><div class="dn">Les 9 RQPE</div><div class="dd">Regles Qui Preservent l\'Environnement</div></div><span class="tag tp">36 pages</span></div>
+  <div class="dc">&#127807; Kit Ambassadeur - Affiches Ecogestes</div>
+  <div class="di" onclick="openDoc('sobriete','Sobriete Energetique et Eau')"><span class="dic">&#128161;</span><div class="dit"><div class="dn">Sobriete Energetique et Eau</div><div class="dd">Les bons réflexes au bureau</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openDoc('dechets','Dechets et Encombrement')"><span class="dic">&#9851;</span><div class="dit"><div class="dn">Dechets et Encombrement</div><div class="dd">Prévenir, trier, valoriser, signaler</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openDoc('mobilite','Mobilite Durable')"><span class="dic">&#128663;</span><div class="dit"><div class="dn">Mobilite Durable</div><div class="dd">Écoconduite et mobilité responsable</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openDoc('achat','Achat Responsable')"><span class="dic">&#128722;</span><div class="dit"><div class="dn">Achat Responsable</div><div class="dd">Ma boussole verte</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openDoc('vigilance','Vigilance Verte')"><span class="dic">&#128065;</span><div class="dit"><div class="dn">Vigilance Verte</div><div class="dd">Signaler c\'est epargner demain</div></div><span class="tag ti">AFFICHE</span></div>
+</div>
+
+<!-- DOC VIEWER -->
+<div class="dv" id="dv">
+  <div class="dvh"><span class="dvt" id="dv-t"></span><button class="dvc" onclick="cdoc()">&#x2715;</button></div>
+  <div class="dvb" id="dv-b"></div>
+  <div class="dvf"><a class="bdl" id="dv-dl" download>&#11015; Télécharger</a><button class="bcl" onclick="cdoc()">Fermer</button></div>
+</div>
+
+<!-- QUICK WINS -->
+<div class="pg" id="pg-qw">
+  <div class="hd"><h1>&#9889; Quick Wins</h1><p>Actions terrain partagées entre Ambassadeurs</p></div>
+  <div class="qt" style="flex-wrap:wrap">
+    <button class="qtb on" id="tab-list" onclick="sqw('list')">&#127758; Actions</button>
+    <button class="qtb" id="tab-synth" onclick="sqw('synth')">&#128196; Synthèse</button>
+    <button class="qtb" id="tab-add" onclick="sqw('add')">&#10133; Ajouter</button>
+    <button class="qtb" id="tab-rem" onclick="sqw('rem')">&#128228; Remontée</button>
+  </div>
+
+  <!-- LISTE -->
+  <div class="qp on" id="qp-list">
+    <div style="font-size:11px;color:var(--mut);margin-bottom:8px">Actions visibles par tous les Ambassadeurs en temps réel.</div>
+    <div style="margin-bottom:8px">
+      <div style="font-size:11px;color:var(--mut);margin-bottom:5px;font-weight:700">FILTRER PAR STATUT</div>
+      <div class="filters" id="filter-statut">
+        <button class="fbtn on" onclick="setFilter('statut','')">Tous</button>
+        <button class="fbtn" onclick="setFilter('statut','En cours')">En cours</button>
+        <button class="fbtn" onclick="setFilter('statut','Realise')">Realise</button>
+        <button class="fbtn" onclick="setFilter('statut','Valide')">Valide</button>
+      </div>
+      <div style="font-size:11px;color:var(--mut);margin:8px 0 5px;font-weight:700">FILTRER PAR ÉQUIPE</div>
+      <div class="filters" id="filter-equipe">
+        <button class="fbtn on" onclick="setFilter('equipe','')">Toutes</button>
+        <span style="font-size:10px;color:var(--gold);font-weight:700;margin:2px 4px">UO Centre</span>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe CCGOL')">CCGOL</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe CCL')">CCL</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Suly')">Suly</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Sibelin')">Sibelin</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Rive Gauche Nord')">RG Nord</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Rive Gauche Est')">RG Est</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe CCSL')">CCSL</button>
+        <span style="font-size:10px;color:var(--gold);font-weight:700;margin:2px 4px">UO Zone Diffuse</span>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Ondaine')">Ondaine</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Rive Droite Nord')">RD Nord</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Gier')">Gier</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Rive Droite Sud')">RD Sud</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Diois')">Diois</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Rive Ain Saone')">Ain Saone</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Ouest Lyonnais')">O. Lyonnais</button>
+        <button class="fbtn" onclick="setFilter('equipe','Equipe Forez')">Forez</button>
+      </div>
+    </div>
+    <div id="qw-list"></div>
+  </div>
+
+  <!-- SYNTHÈSE -->
+  <div class="qp" id="qp-synth">
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:11px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--mut);line-height:1.6">
+      Synthèse complète de tous les Quick Wins - tous statuts et toutes équipes confondus.
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+      <button onclick="selAll(true)" style="padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:8px;color:var(--mut);font-size:11px;cursor:pointer">&#9745; Tout cocher</button>
+      <button onclick="selAll(false)" style="padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:8px;color:var(--mut);font-size:11px;cursor:pointer">&#9744; Tout décocher</button>
+      <button onclick="loadSynth()" style="padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:8px;color:var(--mut);font-size:11px;cursor:pointer">&#8635; Actualiser</button>
+    </div>
+    <div style="font-size:11px;color:var(--mut);margin-bottom:10px" id="sel-count">Cochez les Quick Wins à exporter</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button onclick="exportXLS()" style="flex:1;padding:11px;background:linear-gradient(135deg,#0F6E56,#1F8A6A);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;cursor:pointer">&#128229; CSV / Excel</button>
+      <button onclick="exportPDF()" style="flex:1;padding:11px;background:linear-gradient(135deg,#1F4E79,#2E75B6);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;cursor:pointer">&#128196; Fiche PDF</button>
+    </div>
+    <div id="synth-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px"></div>
+    <div id="synth-list"></div>
+  </div>
+
+  <!-- SYNTHESE -->
+  <div class="qp" id="qp-synth">
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:11px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--mut);line-height:1.6">
+      Synthèse complète - tous statuts et toutes équipes confondus.
+    </div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap">
+      <button onclick="selAll(true)" style="padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:8px;color:var(--mut);font-size:11px;cursor:pointer">&#9745; Tout cocher</button>
+      <button onclick="selAll(false)" style="padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:8px;color:var(--mut);font-size:11px;cursor:pointer">&#9744; Tout décocher</button>
+      <button onclick="loadSynth()" style="padding:8px 12px;background:rgba(255,255,255,0.07);border:1px solid var(--bdr);border-radius:8px;color:var(--mut);font-size:11px;cursor:pointer">&#8635; Actualiser</button>
+    </div>
+    <div style="font-size:11px;color:var(--mut);margin-bottom:10px" id="sel-count">Cochez les Quick Wins à exporter</div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <button onclick="exportXLS()" style="flex:1;padding:11px;background:linear-gradient(135deg,#0F6E56,#1F8A6A);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;cursor:pointer">&#128229; CSV / Excel</button>
+      <button onclick="exportPDF()" style="flex:1;padding:11px;background:linear-gradient(135deg,#1F4E79,#2E75B6);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;cursor:pointer">&#128196; Fiche PDF</button>
+    </div>
+    <div id="synth-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px"></div>
+    <div id="synth-list"></div>
+  </div>
+
+  <!-- AJOUTER -->
+  <div class="qp" id="qp-add">
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:11px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--mut);line-height:1.6">Votre Quick Win sera visible par tous les Ambassadeurs en temps réel.</div>
+    <div class="fg"><label class="fl">Nom de l'action *</label><input class="fi" id="fn" type="text" placeholder="Ex : Signalétique bacs de tri sélectif" maxlength="80"></div>
+    <div class="fg"><label class="fl">Votre nom *</label><input class="fi" id="fa" type="text" placeholder="Ex: Marie Dupont" maxlength="60"></div>
+    <div class="fg"><label class="fl">Équipe / Site *</label>
+      <select class="fs" id="feq">
+        <option value="">Sélectionnez votre équipe</option>
+        <optgroup label="UO Centre">
+          <option>Equipe CCGOL</option>
+          <option>Equipe CCL</option>
+          <option>Equipe Suly</option>
+          <option>Equipe Sibelin</option>
+          <option>Equipe Rive Gauche Nord</option>
+          <option>Equipe Rive Gauche Est</option>
+          <option>Equipe CCSL</option>
+        </optgroup>
+        <optgroup label="UO Zone Diffuse">
+          <option>Equipe Ondaine</option>
+          <option>Equipe Rive Droite Nord</option>
+          <option>Equipe Gier</option>
+          <option>Equipe Rive Droite Sud</option>
+          <option>Equipe Diois</option>
+          <option>Equipe Rive Ain Saone</option>
+          <option>Equipe Ouest Lyonnais</option>
+          <option>Equipe Forez</option>
+        </optgroup>
+      </select></div>
+    <div class="fg"><label class="fl">Statut</label>
+      <select class="fs" id="fst">
+        <option value="En cours">En cours</option>
+        <option value="Realise">Realise</option>
+        <option value="Valide">Valide par le CLE</option>
+      </select></div>
+    <div class="fr">
+      <div class="fg"><label class="fl">Date de debut</label><input class="fi" id="fd1" type="date"></div>
+      <div class="fg"><label class="fl">Date de fin</label><input class="fi" id="fd2" type="date"></div>
+    </div>
+    <div class="fg"><label class="fl">Thematique</label>
+      <select class="fs" id="fth">
+        <option value="energie">Energie et sobriete</option>
+        <option value="dechets">Dechets et tri</option>
+        <option value="eau">Eau</option>
+        <option value="mobilite">Mobilite</option>
+        <option value="vigilance">Vigilance verte</option>
+        <option value="autre">Autre</option>
+      </select></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="fds" placeholder="Décrivez l'action, comment vous l'avez mise en place..."></textarea></div>
+    <div class="fg"><label class="fl">Indicateurs</label><textarea class="ft" id="fin" style="min-height:55px" placeholder="Ex : 30% réduction erreurs de tri, 2h de mise en place, 0 EUR de coût..."></textarea></div>
+    <div class="fg">
+      <label class="fl">Photo AVANT</label>
+      <div class="uz" onclick="document.getElementById('iav').click()">
+        <input type="file" id="iav" accept="image/*" style="display:none" onchange="prv(this,'pav','lav')">
+        <div class="uzi">&#128247;</div><div class="uzt">Ajouter une photo AVANT</div>
+      </div>
+      <img id="pav" class="prev" alt="Avant"><div class="plbl" id="lav">AVANT</div>
+    </div>
+    <div class="fg">
+      <label class="fl">Photo APRES</label>
+      <div class="uz" onclick="document.getElementById('iap').click()">
+        <input type="file" id="iap" accept="image/*" style="display:none" onchange="prv(this,'pap','lap')">
+        <div class="uzi">&#128247;</div><div class="uzt">Ajouter une photo APRÈS</div>
+      </div>
+      <img id="pap" class="prev" alt="Apres"><div class="plbl" id="lap">APRES</div>
+    </div>
+    <button class="bs" id="btn-save" onclick="svqw()">&#10003; Publier le Quick Win</button>
+    <div style="font-size:10px;color:rgba(46,204,113,0.8);text-align:center;margin-top:8px" id="supabase-notice">
+      &#10003; Partage en temps réel actif - visible par tous les Ambassadeurs
+    </div>
+  </div>
+
+  <!-- REMONTEE -->
+  <div class="qp" id="qp-rem">
+    <div style="background:var(--card);border:1px solid var(--bdr);border-radius:11px;padding:11px;margin-bottom:12px;font-size:11px;color:var(--mut);line-height:1.6">Remontée privée directement à Toky (CLE). Non visible par les autres.</div>
+    <div class="fg"><label class="fl">Votre nom</label><input class="fi" id="rn" type="text" placeholder="Prenom Nom - Equipe"></div>
+    <div class="fg"><label class="fl">Type</label>
+      <select class="fs" id="rt">
+        <option value="idee">Idee de Quick Win</option>
+        <option value="besoin">Besoin ou contrainte sur mon site</option>
+        <option value="incident">Evenement environnemental a signaler</option>
+        <option value="autre">Autre</option>
+      </select></div>
+    <div class="fg"><label class="fl">Sujet</label><input class="fi" id="rs" type="text" placeholder="En quelques mots"></div>
+    <div class="fg"><label class="fl">Description</label><textarea class="ft" id="rd" placeholder="Décrivez en détail, plus c'est précis, mieux c'est..."></textarea></div>
+    <a class="bml" id="rl" href="#" onclick="prm(event)">&#9993; Envoyer par mail à Toky</a>
+    <div style="font-size:10px;color:var(--mut);text-align:center;margin-top:6px">Votre application mail s'ouvrira pré-remplie</div>
+  </div>
+</div>
+
+<!-- PROFIL -->
+<div class="pg" id="pg-profil">
+  <div class="hd"><div class="logos" id="lg-p"></div><h1>Mon Profil</h1><p>EIC Rhône-Alpes - SNCF Réseau</p>
+    <div id="user-info" style="margin-top:8px;font-size:11px;color:var(--gold)"></div>
+  </div>
+  <div class="fg"><label class="fl">Prenom et nom</label><input class="fi" id="pn" type="text" placeholder="Ex: Marie Dupont" oninput="sp()"></div>
+  <div class="fg"><label class="fl">Équipe / Site</label>
+    <select class="fs" id="pe" onchange="sp()">
+      <option value="">Sélectionnez votre équipe</option>
+      <optgroup label="UO Centre">
+        <option>Equipe CCGOL</option>
+        <option>Equipe CCL</option>
+        <option>Equipe Suly</option>
+        <option>Equipe Sibelin</option>
+        <option>Equipe Rive Gauche Nord</option>
+        <option>Equipe Rive Gauche Est</option>
+        <option>Equipe CCSL</option>
+      </optgroup>
+      <optgroup label="UO Zone Diffuse">
+        <option>Equipe Ondaine</option>
+        <option>Equipe Rive Droite Nord</option>
+        <option>Equipe Gier</option>
+        <option>Equipe Rive Droite Sud</option>
+        <option>Equipe Diois</option>
+        <option>Equipe Rive Ain Saone</option>
+        <option>Equipe Ouest Lyonnais</option>
+        <option>Equipe Forez</option>
+      </optgroup>
+    </select></div>
+  <div class="fg"><label class="fl">Unité Opérationnelle</label>
+    <select class="fs" id="pu" onchange="sp()">
+      <option value="">Sélectionnez votre UO</option>
+      <option value="centre">UO Centre</option>
+      <option value="zd">UO Zone Diffuse</option>
+    </select></div>
+  <div class="sr">
+    <div class="sc"><div class="sv" id="sqw">0</div><div class="sl2">Quick Wins</div></div>
+    <div class="sc"><div class="sv" style="color:#7EC8A0">11</div><div class="sl2">Documents</div></div>
+  </div>
+  <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.3);border-radius:11px;padding:12px;margin-top:6px">
+    <div style="font-size:12px;font-weight:700;color:#2ECC71;margin-bottom:4px">&#10003; Partage en temps réel actif</div>
+    <div style="font-size:11px;color:var(--mut);line-height:1.6">Les Quick Wins sont partages entre tous les Ambassadeurs via Supabase. Projet : reflexe-or</div>
+  </div>
+  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:11px;padding:12px;margin-top:8px;font-size:11px;color:var(--mut);line-height:1.8">Version 1.0 - Mai 2026<br>Projet Réflexe Or - EIC Rhône-Alpes</div>
+  <button onclick="ca()" style="width:100%;margin-top:8px;padding:11px;background:rgba(231,76,60,0.1);border:1px solid rgba(231,76,60,0.3);border-radius:9px;color:#E74C3C;font-size:12px;cursor:pointer">Effacer toutes mes données</button>
+  <button onclick="logout()" style="width:100%;margin-top:6px;padding:11px;background:rgba(255,165,0,0.1);border:1px solid rgba(255,165,0,0.3);border-radius:9px;color:#FFB84D;font-size:12px;cursor:pointer">Se déconnecter</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb on" id="nb-home" onclick="gp('home')"><span class="ni">&#127968;</span>Accueil</button>
+  <button class="nb" id="nb-docs" onclick="gp('docs')"><span class="ni">&#128218;</span>Documents</button>
+  <button class="nb" id="nb-qw" onclick="gp('qw')"><span class="ni">&#9889;</span>Quick Wins</button>
+  <button class="nb" id="nb-profil" onclick="gp('profil')"><span class="ni">&#128100;</span>Profil</button>
+</nav>
+
+<!-- MODALS -->
+<div class="mo" id="m1"><div class="mbox">
+  <div class="mh"><h3>&#10067; Tout sur l'Ambassadeur</h3><button class="mhc" onclick="cm('m1')">&#x2715;</button></div>
+  <div class="mb2">
+    <h4>1. QUI ?</h4>
+    <p>Tout agent de l'EIC RA, quel que soit le métier, souhaitant s'engager pour l'environnement.</p>
+    <h4>2. QUOI ?</h4>
+    <p>Un relais de proximité volontaire qui soutient la culture environnementale au quotidien.</p>
+    <h4>3. POURQUOI ?</h4>
+    <p>Devenir Ambassadeur, c'est agir concrètement à son échelle pour réduire l'impact environnemental de son équipe et transformer nos gestes métiers en solutions durables pour la planète.</p>
+    <h4>4. COMMENT ?</h4>
+    <p>Par des communications quotidiennes, l'adoption d'actions concrètes comme les Quick Wins et des challenges environnementaux collectifs.</p>
+    <h4>5. OU ?</h4>
+    <p>100% sur votre site habituel. Pas de déplacements, pas de réunions inutiles.</p>
+    <h4>6. QUAND ?</h4>
+    <p>Quand vous voulez ! Aucun planning imposé, aucune surcharge de travail. C'est une véritable intelligence collective.</p>
+    <div class="hl">"Je propose, l'établissement m'aide à réaliser."</div>
+  </div>
+</div></div>
+
+<div class="mo" id="m2"><div class="mbox">
+  <div class="mh"><h3>&#9889; Les Quick Wins</h3><button class="mhc" onclick="cm('m2')">&#x2715;</button></div>
+  <div class="mb2">
+    <div class="hl">Des "victoires rapides". Des actions simples, réalistes, à faible coût et avec des résultats immédiats.</div>
+    <h4>Les thematiques</h4>
+    <div class="br">
+      <span class="bk">&#128161; Sobriété énergétique et eau</span>
+      <span class="bk">&#9851; Gestion des déchets et encombrements</span>
+      <span class="bk">&#128663; Mobilité durable</span>
+      <span class="bk">&#128065; Vigilance verte</span>
+    </div>
+    <h4>Exemples concrets</h4>
+    <div class="stps">
+      <div class="step"><div class="sn">&#9851;</div><div class="stx">Signalétique claire sur les bacs de recyclage pour réduire les erreurs de tri</div></div>
+      <div class="step"><div class="sn">&#128161;</div><div class="stx">Affichage consignes de sobriété énergétique sur les interrupteurs et écrans</div></div>
+      <div class="step"><div class="sn">&#128167;</div><div class="stx">Autocollants "Fermer le robinet" aux points d'eau du site</div></div>
+      <div class="step"><div class="sn">&#128663;</div><div class="stx">Conseils d'écoconduite affichés dans la salle de pause</div></div>
+    </div>
+    <div class="gal" id="mgal"></div>
+  </div>
+</div></div>
+
+<div class="mo" id="m3"><div class="mbox">
+  <div class="mh"><h3>&#127919; Nos 3 objectifs strategiques</h3><button class="mhc" onclick="cm('m3')">&#x2715;</button></div>
+  <div class="mb2">
+    <div class="stps">
+      <div class="step"><div class="sn">1</div><div class="stx"><strong style="color:var(--gold)">Fédérer les équipes</strong> autour d'objectifs environnementaux concrets</div></div>
+      <div class="step"><div class="sn">2</div><div class="stx"><strong style="color:var(--gold)">Valoriser et diffuser</strong> les bonnes pratiques issues du terrain</div></div>
+      <div class="step"><div class="sn">3</div><div class="stx"><strong style="color:var(--gold)">Garantir un SME vivant,</strong> opérationnel et pérenne au quotidien</div></div>
+    </div>
+    <div class="kg"><div class="kc"><div class="kv">11</div><div class="kl">equipes cibles</div></div><div class="kc"><div class="kv">651</div><div class="kl">collaborateurs</div></div></div>
+    <h4>Nos engagements</h4>
+    <p><strong style="color:var(--gold)">Politique Environnementale 2026 :</strong> Notre vision pour intégrer l'écologie dans nos métiers de la circulation ferroviaire.</p>
+    <p><strong style="color:var(--gold)">Charte Environnementale 2026 :</strong> Nos 10 engagements sur le tri des déchets, l'énergie, la lutte contre les pollutions, à appliquer chaque jour sur le terrain.</p>
+  </div>
+</div></div>
+
+<div class="mo" id="m4"><div class="mbox">
+  <div class="mh"><h3>&#127942; Le Label PACTE Or</h3><button class="mhc" onclick="cm('m4')">&#x2715;</button></div>
+  <div class="mb2">
+    <div class="logos" id="mplogo" style="margin-bottom:12px"></div>
+    <p>Grâce à nos efforts collectifs depuis 2023, nous avons atteint le sommet du Label PACTE : le Palier Or est désormais acquis. Cette réussite témoigne de notre capacité à transformer nos méthodes de travail.</p>
+    <div class="hl">Cependant, le véritable défi ne réside pas uniquement dans cette étape : obtenir ce palier Or implique de traduire nos engagements en actions concrètes sur le terrain, jour après jour.</div>
+    <h4>Notre progression</h4>
+    <table class="prog-table">
+      <tr><th>Annee</th><th>Palier</th><th>Signification</th></tr>
+      <tr><td>2023</td><td style="color:var(--gold)">Bronze</td><td>L'éveil de la conscience environnementale</td></tr>
+      <tr><td>2024</td><td style="color:#9EA1A2">Argent</td><td>La mise en œuvre d'actions concrètes</td></tr>
+      <tr><td>2026</td><td style="color:var(--gold);font-weight:700">Or &#10003;</td><td>L'ancrage durable de nos réflexes</td></tr>
+    </table>
+    <div class="hl">Le maintien du Palier Or dépend de CHACUN d'entre nous. En tant qu'Ambassadeur, vous agissez comme un pont entre nos objectifs et l'état actuel de vos postes.</div>
+  </div>
+</div></div>
+
+<div class="mo" id="m5"><div class="mbox">
+  <div class="mh"><h3>&#129309; Mes interlocuteurs</h3><button class="mhc" onclick="cm('m5')">&#x2715;</button></div>
+  <div class="mb2">
+    <div class="stps">
+      <div class="step"><div class="sn">&#127968;</div><div class="stx"><strong style="color:var(--gold)">Sur mon site :</strong> Mon DPX (Dirigeant de Proximité) - Mon premier interlocuteur au quotidien</div></div>
+      <div class="step"><div class="sn">&#128198;</div><div class="stx"><strong style="color:var(--gold)">En UO :</strong> Mon ALE (Assistant Local Environnement) - Référent technique et relais dans mon Unité Opérationnelle</div></div>
+      <div class="step"><div class="sn">&#127961;</div><div class="stx"><strong style="color:var(--gold)">En etablissement :</strong> CLE et Alternante CLE - Coordinateurs du projet Réflexe Or au niveau de l'EIC RA</div></div>
+    </div>
+    <div class="cc" style="margin-bottom:8px"><div class="av">&#127807;</div><div><div class="cn">Tokinirina RATSITOMANDIMBY</div><div class="cr">Alternante CLE - Chef de projet Reflexe Or</div><a class="cm" href="mailto:tokinirina.ratsitomandimby@reseau.sncf.fr">tokinirina.ratsitomandimby@reseau.sncf.fr</a></div></div>
+    <div class="cc"><div class="av">&#11088;</div><div><div class="cn">Philippe FOUREL</div><div class="cr">CLE - Responsable Pôle Sécurité - Sponsor</div><a class="cm" href="mailto:philippe.fourel@reseau.sncf.fr">philippe.fourel@reseau.sncf.fr</a></div></div>
+    <div class="hl">Règle de non-sollicitation : aucune obligation entre les réunions. Tu contactes selon tes besoins et ta disponibilité.</div>
+  </div>
+</div></div>
+
+<!-- INSTALL BANNER -->
+<div id="ib" class="ib">
+  <div style="display:flex;align-items:center;gap:9px;flex:1"><span style="font-size:22px">&#128241;</span><div><div style="color:var(--gold);font-size:12px;font-weight:700">Installer l'application</div><div style="color:var(--mut);font-size:10px">Acces depuis votre ecran d'accueil</div></div></div>
+  <div style="display:flex;gap:6px">
+    <button id="ibb" style="background:var(--gold);color:#1A1A1A;border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer">Installer</button>
+    <button onclick="document.getElementById('ib').classList.remove('on')" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid var(--bdr);border-radius:8px;padding:7px 9px;font-size:12px;cursor:pointer">Plus tard</button>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+// ── CONFIG SUPABASE (a remplir apres creation du projet) ──
+var SB_URL = 'https://ycreroxqntpfpoynvpjm.supabase.co';
+var SB_KEY = 'sb_publishable_VmDz12423j4MS_3kuhmkmA_OuIgeYlu';
+var SB_OK  = true;
+
+var filterStatut = '';
+var filterEquipe = '';
+
+var TC={energie:{bg:"rgba(255,165,0,.2)",c:"#FFB84D",l:"Energie"},
+  dechets:{bg:"rgba(46,204,113,.2)",c:"#2ECC71",l:"Dechets"},
+  eau:{bg:"rgba(52,152,219,.2)",c:"#3498DB",l:"Eau"},
+  mobilite:{bg:"rgba(155,89,182,.2)",c:"#9B59B6",l:"Mobilite"},
+  vigilance:{bg:"rgba(231,76,60,.2)",c:"#E74C3C",l:"Vigilance"},
+  autre:{bg:"rgba(149,165,166,.2)",c:"#95A5A6",l:"Autre"}};
+var ST={
+  'En cours':{bg:"rgba(255,165,0,.2)",c:"#FFB84D"},
+  'Realise':{bg:"rgba(46,204,113,.2)",c:"#2ECC71"},
+  'Valide':{bg:"rgba(15,110,86,.3)",c:"#7EC8A0"}};
+var CS=[],CI=0;
+
+// ── Init ──
+function lh(k){return(APP_DATA&&APP_DATA[k]&&APP_DATA[k].data)?APP_DATA[k].data:'';}
+
+function init(){
+  var h='';
+  if(lh('logo_sncf'))  h+='<img src="'+lh('logo_sncf')+'" alt="SNCF" style="height:28px">';
+  if(lh('logo_env'))   h+='<img src="'+lh('logo_env')+'" alt="SNCF Env" style="height:28px">';
+  if(lh('logo_pacte')) h+='<img src="'+lh('logo_pacte')+'" alt="PACTE" style="height:28px">';
+  document.getElementById('lg-h').innerHTML=h;
+  document.getElementById('lg-p').innerHTML=h;
+  document.getElementById('mplogo').innerHTML=lh('logo_pacte')?'<img src="'+lh('logo_pacte')+'" style="height:60px;width:auto">':'';
+  if(lh('hero')){var hi=document.getElementById('img-hero');hi.src=lh('hero');hi.style.display='block';}
+  var g=document.getElementById('mgal');
+  if(lh('qw1')&&lh('qw2'))g.innerHTML='<img src="'+lh('qw1')+'" alt="QW1"><img src="'+lh('qw2')+'" alt="QW2">';
+
+  rl();
+  lp();
+
+  // Initialiser l'écran de connexion
+  var loginLogos = document.getElementById('login-logos');
+  if(loginLogos) loginLogos.innerHTML = document.getElementById('lg-h').innerHTML;
+
+  // Vérifier si déjà connecté
+  if(!CURRENT_USER){
+    showLoginScreen();
+  } else {
+    updateUserInfo();
+  }
+}
+
+function updateUserInfo(){
+  var el = document.getElementById('user-info');
+  if(el && CURRENT_USER){
+    el.innerHTML = '&#128100; ' + CURRENT_USER.nom + ' (' + CURRENT_USER.email + ')';
+  }
+}
+
+// ── Navigation ──
+function gp(id){
+  document.querySelectorAll('.pg').forEach(function(e){e.classList.remove('on')});
+  document.querySelectorAll('.nb').forEach(function(e){e.classList.remove('on')});
+  document.getElementById('pg-'+id).classList.add('on');
+  document.getElementById('nb-'+id).classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='profil')lp();
+  if(id==='qw')rl();
+}
+
+// ── Modals ──
+function openM(id){document.getElementById(id).classList.add('on');document.body.style.overflow='hidden';}
+function cm(id){document.getElementById(id).classList.remove('on');document.body.style.overflow='';}
+document.addEventListener('click',function(e){
+  if(e.target&&e.target.classList&&e.target.classList.contains('mo')){
+    e.target.classList.remove('on');document.body.style.overflow='';
+  }
+});
+
+// ── Doc viewer ──
+function openDoc(key,title){
+  var d=APP_DATA&&APP_DATA[key];
+  if(!d){toast('Document non disponible');return;}
+  document.getElementById('dv-t').textContent=title;
+  var b=document.getElementById('dv-b'),dl=document.getElementById('dv-dl');
+  if(d.type==='slides'){CS=d.pages;CI=0;showSlide(b,dl);}
+  else{CS=[];b.innerHTML='<img src="'+d.data+'" style="max-width:100%;border-radius:8px">';dl.href=d.data;dl.download=title.replace(/\s+/g,'_')+'.jpg';}
+  document.getElementById('dv').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function showSlide(b,dl){
+  if(!b)b=document.getElementById('dv-b');
+  if(!dl)dl=document.getElementById('dv-dl');
+  var n=CS.length,i=CI;
+  var nav=n>1?'<div class="snav"><button onclick="ps()" '+(i===0?'disabled style="opacity:.4"':'')+'>&#8592; Prec</button><span>'+(i+1)+'/'+n+'</span><button onclick="ns()" '+(i===n-1?'disabled style="opacity:.4"':'')+'>Suiv &#8594;</button></div>':'';
+  b.innerHTML='<img src="'+CS[i]+'" style="max-width:100%;border-radius:8px">'+nav;
+  dl.href=CS[i];dl.download='page'+(i+1)+'.jpg';
+}
+function ps(){if(CI>0){CI--;showSlide();}}
+function ns(){if(CI<CS.length-1){CI++;showSlide();}}
+function cdoc(){document.getElementById('dv').classList.remove('on');document.getElementById('dv-b').innerHTML='';CS=[];CI=0;document.body.style.overflow='';}
+
+// ── QW Tabs ──
+function sqw(t){
+  document.querySelectorAll('.qtb').forEach(function(b){b.classList.remove('on')});
+  document.querySelectorAll('.qp').forEach(function(p){p.classList.remove('on')});
+  document.getElementById('tab-'+t).classList.add('on');
+  document.getElementById('qp-'+t).classList.add('on');
+  if(t==='synth') loadSynth();
+}
+
+// ── Filtres ──
+function setFilter(type,val){
+  if(type==='statut'){
+    filterStatut=val;
+    document.querySelectorAll('#filter-statut .fbtn').forEach(function(b){b.classList.remove('on')});
+    event.target.classList.add('on');
+  } else {
+    filterEquipe=val;
+    document.querySelectorAll('#filter-equipe .fbtn').forEach(function(b){b.classList.remove('on')});
+    event.target.classList.add('on');
+  }
+  rl();
+}
+
+// ── Supabase ──
+function saveSB(){
+  SB_URL=document.getElementById('sb-url').value.trim();
+  SB_KEY=document.getElementById('sb-key').value.trim();
+  localStorage.setItem('sb_url',SB_URL);
+  localStorage.setItem('sb_key',SB_KEY);
+  SB_OK=(SB_URL.length>10&&SB_KEY.length>10);
+  updateNotice();
+}
+function updateNotice(){
+  var n=document.getElementById('supabase-notice');
+  if(!n)return;
+  if(SB_OK){n.style.color='rgba(46,204,113,0.9)';n.innerHTML='&#10003; Supabase configure. Partage en temps réel actif !';}
+  else{n.style.color='rgba(255,140,0,0.8)';n.innerHTML='&#128274; En attente de configuration Supabase.<br>Configurez dans l\'onglet Profil pour activer le partage.';}
+}
+async function sbFetch(path,opts){
+  opts=opts||{};
+  opts.headers=opts.headers||{};
+  opts.headers["apikey"]=SB_KEY;
+  opts.headers["Authorization"]="Bearer "+SB_KEY;
+  opts.headers["Content-Type"]="application/json";
+  opts.headers["Prefer"]="return=representation";
+  return fetch(SB_URL+"/rest/v1/"+path,opts);
+}
+async function testSB(){
+  var st=document.getElementById('sb-status');
+  saveSB();
+  if(!SB_OK){st.textContent='Entrez l\'URL et la cle anon Supabase';st.style.color='#E74C3C';return;}
+  st.innerHTML='<span class="loading-sp"></span>Test en cours...';
+  try{
+    var r=await sbFetch('quickwins?select=id&limit=1');
+    if(r.ok){st.textContent='Connexion reussie ! Supabase est configure.';st.style.color='#2ECC71';toast('Supabase connecte !');}
+    else{st.textContent='Erreur '+r.status+'. Verifiez l\'URL et la cle.';st.style.color='#E74C3C';}
+  }catch(e){st.textContent='Erreur de connexion. Verifiez l\'URL.';st.style.color='#E74C3C';}
+}
+
+// ── Load QW ──
+async function rl(){
+  var el=document.getElementById('qw-list');
+  if(!el)return;
+  el.innerHTML='<div class="es"><span class="loading-sp"></span><p>Chargement...</p></div>';
+
+  var items=[];
+  if(SB_OK){
+    try{
+      var params="quickwins?select=*&order=created_at.desc";
+      if(filterStatut)params+="&statut=eq."+encodeURIComponent(filterStatut);
+      if(filterEquipe)params+="&equipe=eq."+encodeURIComponent(filterEquipe);
+      var r=await sbFetch(params);
+      if(r.ok){
+        var data=await r.json();
+        items=Array.isArray(data)?data:[];
+      } else {
+        var errText=await r.text();
+        console.error("Supabase list error:",r.status,errText);
+        items=JSON.parse(localStorage.getItem("qws")||"[]");
+      }
+      document.getElementById("sqw").textContent=items.length;
+    }catch(e){
+      console.error("Fetch error:",e);
+      items=JSON.parse(localStorage.getItem("qws")||"[]");
+      document.getElementById("sqw").textContent=items.length;
+    }
+  } else {
+    // Mode local (sans Supabase)
+    var all=JSON.parse(localStorage.getItem('qws')||'[]');
+    items=all.filter(function(q){
+      return(!filterStatut||q.statut===filterStatut)&&(!filterEquipe||q.equipe===filterEquipe);
+    });
+    document.getElementById('sqw').textContent=all.length;
+  }
+
+  if(!items.length){
+    el.innerHTML='<div class="es"><div class="ei">&#127807;</div><p>Aucune action pour ces filtres.<br>Soyez le premier a publier !</p></div>';
+    return;
+  }
+  var h='';
+  items.forEach(function(q){
+    var tc=TC[q.thematique||q.th]||TC.autre;
+    var st=ST[q.statut]||ST['En cours'];
+    var amb=q.ambassadeur||q.a||'Anonyme';
+    var nom=q.nom||q.n||'Action';
+    var eq=q.equipe||q.eq||'';
+    var d1=q.date_debut||q.d1||'';
+    var d2=q.date_fin||q.d2||'';
+    var desc=q.description||q.ds||'';
+    var ind=q.indicateurs||q.ind||'';
+    var av=q.photo_avant||q.av||null;
+    var ap=q.photo_apres||q.ap||null;
+    var dt=q.created_at?new Date(q.created_at).toLocaleDateString('fr-FR'):(q.dt||'');
+    var dur=d1&&d2?(' | '+d1+' &rarr; '+d2):d1?(' | Debut '+d1):'';
+    var qid=q.id;
+    h+='<div class="qi">';
+    h+='<div class="qih"><div class="qit">'+nom+'</div>';
+    // Bouton supprimer seulement si c'est l'auteur (on compare le nom)
+    var profil=JSON.parse(localStorage.getItem('profil')||'{}');
+    if(profil.n&&profil.n===amb){h+='<button class="qdl" onclick="dqw(\''+qid+'\')">&#128465;</button>';}
+    h+='</div>';
+    h+='<div class="qim">&#128100; '+amb;
+    if(eq)h+=' | &#127968; '+eq;
+    h+=dur+(dt?' | &#128197; '+dt:'')+'</div>';
+    if(desc)h+='<div class="qdesc">'+desc+'</div>';
+    if(ind)h+='<div class="qind">&#128202; '+ind+'</div>';
+    if(av||ap){h+='<div class="qph">';if(av)h+='<div><img src="'+av+'" alt="Av"><div class="phl">AVANT</div></div>';if(ap)h+='<div><img src="'+ap+'" alt="Ap"><div class="phl">APRES</div></div>';h+='</div>';}
+    h+='<div>';
+    h+='<span class="thbg" style="background:'+tc.bg+';color:'+tc.c+'">'+tc.l+'</span>';
+    h+='<span class="stbg" style="background:'+st.bg+';color:'+st.c+'">'+q.statut+'</span>';
+    h+='</div>';
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+
+// ── Save QW ──
+function prv(inp,pi,li){
+  var f=inp.files[0];if(!f)return;
+  // Compresser avant upload
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var mw=800,mh=800;
+      var w=img.width,h=img.height;
+      if(w>mw){h=Math.round(h*mw/w);w=mw;}
+      if(h>mh){w=Math.round(w*mh/h);h=mh;}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      var data=canvas.toDataURL('image/jpeg',0.72);
+      var el=document.getElementById(pi);
+      el.src=data;el.style.display='block';
+      document.getElementById(li).style.display='block';
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(f);
+}
+
+async function svqw(){
+  var n=document.getElementById('fn').value.trim();
+  var a=document.getElementById('fa').value.trim();
+  var eq=document.getElementById('feq').value;
+  if(!n||!a||!eq){toast("Remplissez le nom, votre nom et votre équipe");return;}
+  var av=document.getElementById('pav').src;
+  var ap=document.getElementById('pap').src;
+  var btn=document.getElementById('btn-save');
+  btn.disabled=true;btn.innerHTML='<span class="loading-sp"></span>Publication...';
+
+  var payload={
+    nom:n, ambassadeur:a, equipe:eq,
+    statut:document.getElementById('fst').value,
+    date_debut:document.getElementById('fd1').value||null,
+    date_fin:document.getElementById('fd2').value||null,
+    thematique:document.getElementById('fth').value,
+    description:document.getElementById('fds').value.trim(),
+    indicateurs:document.getElementById('fin').value.trim(),
+    photo_avant:(av&&av.length>100)?av:null,
+    photo_apres:(ap&&ap.length>100)?ap:null
+  };
+
+  if(SB_OK){
+    try{
+      var r=await sbFetch("quickwins",{method:"POST",body:JSON.stringify(payload)});
+      if(!r.ok){var err=await r.text();throw new Error(err);}
+      toast("Quick Win publie en temps reel !");
+    }catch(e){
+      // Fallback local
+      var qws=JSON.parse(localStorage.getItem('qws')||'[]');
+      payload.id=Date.now();payload.dt=new Date().toLocaleDateString('fr-FR');
+      payload.av=payload.photo_avant;payload.ap=payload.photo_apres;
+      qws.unshift(payload);
+      localStorage.setItem('qws',JSON.stringify(qws));
+      toast('Sauvegarde locale (erreur Supabase)');
+    }
+  } else {
+    // Mode local
+    var qws=JSON.parse(localStorage.getItem('qws')||'[]');
+    payload.id=Date.now();payload.dt=new Date().toLocaleDateString('fr-FR');
+    payload.av=payload.photo_avant;payload.ap=payload.photo_apres;
+    qws.unshift(payload);
+    localStorage.setItem('qws',JSON.stringify(qws));
+    toast('Quick Win sauvegardé localement');
+  }
+  // Reset form
+  ['fn','fa','fd1','fd2','fds','fin'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('feq').selectedIndex=0;
+  document.getElementById('fst').selectedIndex=0;
+  document.getElementById('fth').selectedIndex=0;
+  ['pav','pap'].forEach(function(id){var el=document.getElementById(id);el.src='';el.style.display='none';});
+  ['lav','lap'].forEach(function(id){document.getElementById(id).style.display='none';});
+  ['iav','iap'].forEach(function(id){document.getElementById(id).value='';});
+  btn.disabled=false;btn.innerHTML='&#10003; Publier le Quick Win';
+  sqw('list');rl();
+}
+
+async function dqw(id){
+  if(!confirm("Supprimer ce Quick Win ?")) return;
+  if(SB_OK){
+    try{ var dr=await sbFetch("quickwins?id=eq."+id,{method:"DELETE"}); if(!dr.ok)throw new Error(dr.status); }
+    catch(e){ console.log(e); }
+  } else {
+    var qws=JSON.parse(localStorage.getItem("qws")||"[]").filter(function(q){return String(q.id)!==String(id);});
+    localStorage.setItem("qws",JSON.stringify(qws));
+  }
+  rl();
+}
+
+// ── Remontee ──
+function prm(e){
+  var types={idee:'Idee de Quick Win',besoin:'Besoin / Contrainte',incident:'Evenement env.',autre:'Autre'};
+  var nom=document.getElementById('rn').value.trim()||'Ambassadeur';
+  var type=document.getElementById('rt').value;
+  var suj=document.getElementById('rs').value.trim()||'Non precise';
+  var desc=document.getElementById('rd').value.trim()||'Aucune description';
+  var body='REMONTEE AMBASSADEUR REFLEXE OR\nDe : '+nom+'\nType : '+(types[type]||type)+'\nSujet : '+suj+'\nDate : '+new Date().toLocaleDateString('fr-FR')+'\n\n'+desc;
+  document.getElementById('rl').href='mailto:tokinirina.ratsitomandimby@reseau.sncf.fr?subject='+encodeURIComponent('[Reflexe Or] '+(types[type]||type)+' - '+nom)+'&body='+encodeURIComponent(body);
+}
+
+// ── Profil ──
+function sp(){
+  localStorage.setItem('profil',JSON.stringify({
+    n:document.getElementById('pn').value,
+    e:document.getElementById('pe').value,
+    u:document.getElementById('pu').value
+  }));
+}
+function lp(){
+  var p=JSON.parse(localStorage.getItem('profil')||'{}');
+  if(p.n)document.getElementById('pn').value=p.n;
+  if(p.e){var s=document.getElementById('pe');for(var i=0;i<s.options.length;i++){if(s.options[i].value===p.e||s.options[i].text===p.e){s.selectedIndex=i;break;}}}
+  if(p.u)document.getElementById('pu').value=p.u;
+}
+function ca(){
+  if(confirm('Effacer toutes les donnees locales ?')){
+    localStorage.removeItem('qws');localStorage.removeItem('profil');
+    lp();rl();toast('Données effacées');
+  }
+}
+
+
+// ── Connexion / Sécurité ──
+var CURRENT_USER = JSON.parse(localStorage.getItem('current_user')||'null');
+
+function showLoginScreen(){
+  var overlay = document.getElementById('login-overlay');
+  if(overlay) overlay.style.display='flex';
+}
+function hideLoginScreen(){
+  var overlay = document.getElementById('login-overlay');
+  if(overlay) overlay.style.display='none';
+}
+function login(){
+  var emailEl = document.getElementById('login-email');
+  var errEl   = document.getElementById('login-error');
+  var email   = emailEl.value.trim().toLowerCase();
+  if(!email.match(/^[a-z0-9._-]+@reseau\.sncf\.fr$/)){
+    errEl.textContent = "Utilisez votre email professionnel @reseau.sncf.fr";
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  var prenom = email.split('.')[0];
+  prenom = prenom.charAt(0).toUpperCase() + prenom.slice(1);
+  CURRENT_USER = {email:email, nom:prenom, role:'ambassadeur'};
+  localStorage.setItem('current_user', JSON.stringify(CURRENT_USER));
+  var pn = document.getElementById('pn');
+  if(pn && !pn.value) pn.value = prenom;
+  hideLoginScreen();
+  toast("Bienvenue " + prenom + " !");
+}
+
+function logout(){
+  if(confirm("Se deconnecter ?")){
+    CURRENT_USER=null;
+    localStorage.removeItem('current_user');
+    showLoginScreen();
+  }
+}
+
+// ── Synthèse Quick Wins ──
+async function loadSynth(){
+  var statEl = document.getElementById("synth-stats");
+  var listEl = document.getElementById("synth-list");
+  if(!statEl||!listEl) return;
+  listEl.innerHTML = '<div class="es"><span class="loading-sp"></span><p>Chargement...</p></div>';
+
+  var items = [];
+  if(SB_OK){
+    try{
+      var r = await sbFetch("quickwins?select=*&order=created_at.desc");
+      if(r.ok){
+        var data = await r.json();
+        items = Array.isArray(data) ? data : [];
+      } else {
+        items = JSON.parse(localStorage.getItem("qws")||"[]");
+      }
+    } catch(e){
+      items = JSON.parse(localStorage.getItem("qws")||"[]");
+    }
+  } else {
+    items = JSON.parse(localStorage.getItem("qws")||"[]");
+  }
+
+  if(!items.length){
+    statEl.innerHTML = "";
+    listEl.innerHTML = '<div class="es"><div class="ei">&#127807;</div><p>Aucun Quick Win enregistré.</p></div>';
+    return;
+  }
+
+  // Stats
+  var total   = items.length;
+  var realise = items.filter(function(q){ return q.statut === "Realise"; }).length;
+  var valide  = items.filter(function(q){ return q.statut === "Valide"; }).length;
+
+  statEl.innerHTML =
+    '<div style="background:rgba(255,165,0,.15);border:1px solid rgba(255,165,0,.3);border-radius:10px;padding:10px;text-align:center">' +
+      '<div style="font-size:22px;font-weight:700;color:#FFB84D">' + total + '</div>' +
+      '<div style="font-size:10px;color:var(--mut)">Total</div></div>' +
+    '<div style="background:rgba(46,204,113,.15);border:1px solid rgba(46,204,113,.3);border-radius:10px;padding:10px;text-align:center">' +
+      '<div style="font-size:22px;font-weight:700;color:#2ECC71">' + realise + '</div>' +
+      '<div style="font-size:10px;color:var(--mut)">Réalisés</div></div>' +
+    '<div style="background:rgba(15,110,86,.2);border:1px solid #0F6E56;border-radius:10px;padding:10px;text-align:center">' +
+      '<div style="font-size:22px;font-weight:700;color:#7EC8A0">' + valide + '</div>' +
+      '<div style="font-size:10px;color:var(--mut)">Validés</div></div>';
+
+  // Construction de la liste
+  var h = "";
+  for(var i = 0; i < items.length; i++){
+    var q   = items[i];
+    var qid = q.id || q.id || "";
+    var tc  = TC[q.thematique||q.th] || TC.autre;
+    var st  = ST[q.statut] || ST["En cours"];
+    var nom  = q.nom  || q.n  || "";
+    var amb  = q.ambassadeur || q.a || "";
+    var eq   = q.equipe || q.eq || "";
+    var d1   = q.date_debut  || q.d1 || "";
+    var d2   = q.date_fin    || q.d2 || "";
+    var desc = q.description || q.ds || "";
+    var ind  = q.indicateurs || q.ind || "";
+    var av   = q.photo_avant || q.av || "";
+    var ap   = q.photo_apres || q.ap || "";
+    var dt   = q.created_at ? new Date(q.created_at).toLocaleDateString("fr-FR") : (q.dt||"");
+    var statut = q.statut || "En cours";
+
+    h += '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:12px" id="qi-' + qid + '">';
+
+    // Checkbox + Header
+    h += '<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">';
+    h += '<input type="checkbox" class="qw-check" data-idx="' + i + '" onchange="updateSelCount()" style="width:18px;height:18px;margin-top:3px;cursor:pointer;accent-color:var(--gold);flex-shrink:0">';
+    h += '<div style="flex:1">';
+    h += '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px">';
+    h += '<div style="font-size:14px;font-weight:700;color:var(--gold);flex:1">' + nom + '</div>';
+    h += '<div style="display:flex;align-items:center;gap:5px;flex-shrink:0">';
+    h += '<span class="thbg" style="background:' + tc.bg + ';color:' + tc.c + '">' + tc.l + '</span>';
+    h += '<span class="stbg" style="background:' + st.bg + ';color:' + st.c + '">' + statut + '</span>';
+    h += '<button data-qid="' + qid + '" onclick="dqwFromSynth(this)" style="background:none;border:none;color:var(--mut);font-size:14px;cursor:pointer;padding:2px" title="Supprimer">&#128465;</button>';
+    h += '</div></div>';
+
+    // Tableau infos
+    h += '<table style="width:100%;font-size:11px;color:var(--txt);border-collapse:collapse;margin-bottom:8px">';
+    if(amb) h += '<tr><td style="color:var(--mut);padding:3px 0;width:35%">Ambassadeur</td><td style="padding:3px 0">' + amb + '</td></tr>';
+    if(eq)  h += '<tr><td style="color:var(--mut);padding:3px 0">Équipe</td><td style="padding:3px 0">' + eq + '</td></tr>';
+    if(d1)  h += '<tr><td style="color:var(--mut);padding:3px 0">Période</td><td style="padding:3px 0">' + d1 + (d2 ? " au " + d2 : "") + '</td></tr>';
+    if(dt)  h += '<tr><td style="color:var(--mut);padding:3px 0">Ajouté le</td><td style="padding:3px 0">' + dt + '</td></tr>';
+    h += '</table>';
+
+    if(desc) h += '<div style="font-size:12px;color:var(--txt);line-height:1.5;margin-bottom:6px;padding:8px;background:rgba(255,255,255,.04);border-radius:7px">' + desc + '</div>';
+    if(ind)  h += '<div style="background:rgba(240,192,64,.08);border-left:2px solid var(--gold);border-radius:6px;padding:7px 9px;margin-bottom:6px;font-size:11px;color:var(--txt)">&#128202; ' + ind + '</div>';
+
+    // Photos
+    if(av || ap){
+      h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px">';
+      if(av) h += '<div style="text-align:center"><div style="font-size:9px;font-weight:700;color:var(--gold);margin-bottom:3px">AVANT</div><img src="' + av + '" style="width:100%;border-radius:7px;object-fit:cover;height:100px"></div>';
+      if(ap) h += '<div style="text-align:center"><div style="font-size:9px;font-weight:700;color:var(--gold);margin-bottom:3px">APRÈS</div><img src="' + ap + '" style="width:100%;border-radius:7px;object-fit:cover;height:100px"></div>';
+      h += '</div>';
+    }
+    h += '</div></div>'; // fermer le div flex + le wrapper inner
+    h += '</div>';       // fermer le card
+  }
+
+  listEl.innerHTML = h;
+  window._synthItems = items;
+  updateSelCount();
+}
+
+async function dqwFromSynth(btn){
+  var id = btn.getAttribute("data-qid");
+  if(!confirm("Supprimer ce Quick Win ?")) return;
+  if(SB_OK){
+    try{ await sbFetch("quickwins?id=eq."+id, {method:"DELETE"}); }
+    catch(e){ console.error(e); }
+  } else {
+    var qws = JSON.parse(localStorage.getItem("qws")||"[]").filter(function(q){ return String(q.id) !== String(id); });
+    localStorage.setItem("qws", JSON.stringify(qws));
+  }
+  loadSynth();
+  rl();
+  toast("Quick Win supprimé");
+}
+
+// ── Export Excel ──
+// ── Sélection ──
+function getSelected(){
+  var checks = document.querySelectorAll(".qw-check");
+  var items  = window._synthItems || [];
+  var sel = [];
+  checks.forEach(function(cb){
+    if(cb.checked){
+      var idx = parseInt(cb.getAttribute("data-idx"));
+      if(items[idx]) sel.push(items[idx]);
+    }
+  });
+  return sel;
+}
+
+function selAll(val){
+  document.querySelectorAll(".qw-check").forEach(function(cb){ cb.checked = val; });
+  updateSelCount();
+}
+
+function updateSelCount(){
+  var n = 0;
+  document.querySelectorAll(".qw-check").forEach(function(cb){ if(cb.checked) n++; });
+  var el = document.getElementById("sel-count");
+  if(!el) return;
+  el.textContent = n===0 ? "Cochez les Quick Wins à exporter" : n + " Quick Win" + (n>1?"s":"") + " sélectionné" + (n>1?"s":"");
+  el.style.color = n>0 ? "var(--gold)" : "var(--mut)";
+}
+
+async function exportXLS(){
+  var sel = getSelected();
+  if(!sel.length){ toast("Cochez au moins un Quick Win"); return; }
+
+  var cols = ["Nom action","Ambassadeur","Equipe","Statut","Thematique",
+              "Date debut","Date fin","Description","Indicateurs","Date ajout"];
+  var rows = [cols];
+  sel.forEach(function(q){
+    rows.push([
+      q.nom||q.n||"",
+      q.ambassadeur||q.a||"",
+      q.equipe||q.eq||"",
+      q.statut||"",
+      q.thematique||q.th||"",
+      q.date_debut||q.d1||"",
+      q.date_fin||q.d2||"",
+      q.description||q.ds||"",
+      q.indicateurs||q.ind||"",
+      q.created_at ? new Date(q.created_at).toLocaleDateString("fr-FR") : (q.dt||"")
+    ]);
+  });
+
+  var csv = rows.map(function(r){
+    return r.map(function(c){
+      return '"' + String(c||"").replace(/"/g,'""') + '"';
+    }).join(";");
+  }).join("\n");
+
+  var blob = new Blob(["\uFEFF"+csv], {type:"text/csv;charset=utf-8;"});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement("a");
+  a.href   = url;
+  a.download = "QuickWins_" + new Date().toLocaleDateString("fr-FR").replace(/\//g,"-") + ".csv";
+  a.click();
+  URL.revokeObjectURL(url);
+  toast("CSV exporté - " + sel.length + " Quick Win" + (sel.length>1?"s":""));
+}
+
+
