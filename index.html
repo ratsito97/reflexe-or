@@ -591,6 +591,28 @@ if('serviceWorker' in navigator){
   </div>
 </div>
 
+
+<!-- ECRAN DE CONNEXION -->
+<div id="login-overlay" style="display:flex;position:fixed;inset:0;background:linear-gradient(135deg,#071a0f 0%,#0a2e1a 50%,#0f3d5c 100%);z-index:9000;flex-direction:column;align-items:center;justify-content:center;padding:24px">
+<div style="width:100%;max-width:380px">
+<div style="text-align:center;margin-bottom:24px">
+<div id="login-logos" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px"></div>
+<h1 style="color:#F0C040;font-size:22px;font-weight:700;margin-bottom:6px">Reflexe Or</h1>
+<p style="color:rgba(255,255,255,0.6);font-size:13px">Application Ambassadeurs Environnement</p>
+<p style="color:rgba(255,255,255,0.35);font-size:11px;margin-top:3px">EIC Rhone-Alpes - SNCF Reseau</p>
+</div>
+<div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:22px">
+<div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.85);margin-bottom:5px">Acces reserve aux Ambassadeurs, ALE et CLE</div>
+<div style="font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:14px;line-height:1.5">Connectez-vous avec votre email professionnel SNCF Reseau.</div>
+<label style="display:block;font-size:11px;font-weight:700;color:rgba(255,255,255,0.7);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px">Email professionnel</label>
+<input type="email" id="login-email" style="width:100%;padding:11px 13px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.2);border-radius:9px;color:white;font-size:14px;font-family:Arial,sans-serif;outline:none;margin-bottom:10px;-webkit-appearance:none;box-sizing:border-box" placeholder="prenom.nom@reseau.sncf.fr" onkeydown="if(event.key==='Enter')login()">
+<div id="login-error" style="display:none;color:#E74C3C;font-size:11px;margin-bottom:10px;padding:7px 10px;background:rgba(231,76,60,0.1);border-radius:7px;border-left:2px solid #E74C3C"></div>
+<button id="login-btn" onclick="login()" style="width:100%;padding:12px;background:linear-gradient(135deg,#0F6E56,#1F8A6A);border:none;border-radius:10px;color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:Arial,sans-serif">Se connecter</button>
+<div style="font-size:10px;color:rgba(255,255,255,0.3);text-align:center;margin-top:10px;line-height:1.5">Pas acces ? Contactez<br><a href="mailto:tokinirina.ratsitomandimby@reseau.sncf.fr" style="color:#7EC8A0;text-decoration:none">tokinirina.ratsitomandimby@reseau.sncf.fr</a></div>
+</div>
+</div>
+</div>
+
 <script src="./data.js"></script>
 <script>
 
@@ -738,6 +760,8 @@ function init(){
   if(lh('logo_pacte')) h+='<img src="'+lh('logo_pacte')+'" alt="PACTE" style="height:28px">';
   document.getElementById('lg-h').innerHTML=h;
   document.getElementById('lg-p').innerHTML=h;
+  var ll=document.getElementById('login-logos');
+  if(ll && h) ll.innerHTML=h;
   document.getElementById('mplogo').innerHTML=lh('logo_pacte')?'<img src="'+lh('logo_pacte')+'" style="height:60px;width:auto">':'';
   if(lh('hero')){var hi=document.getElementById('img-hero');hi.src=lh('hero');hi.style.display='block';}
   var g=document.getElementById('mgal');
@@ -754,8 +778,8 @@ function init(){
   var loginLogos = document.getElementById('login-logos');
   if(loginLogos) loginLogos.innerHTML = document.getElementById('lg-h').innerHTML;
 
-  // Toujours montrer l'écran de connexion au démarrage
-  showLoginScreen();
+  // Vérifier si déjà connecté
+  // L'écran de connexion est déjà visible au démarrage
 }
 
 function updateUserInfo(){
@@ -1099,7 +1123,6 @@ function login(){
   var pn = document.getElementById('pn');
   if(pn && !pn.value) pn.value = prenom;
   hideLoginScreen();
-  // Afficher la page d'accueil après connexion
   document.querySelectorAll('.pg').forEach(function(e){e.classList.remove('on')});
   document.querySelectorAll('.nb').forEach(function(e){e.classList.remove('on')});
   document.getElementById('pg-home').classList.add('on');
@@ -1401,6 +1424,8 @@ function exportPDF(){
 
 // ── Démarrage ──
 function startApp(){
+  var loader=document.getElementById('loader');
+  if(loader)loader.style.display='none';
   if(typeof APP_DATA !== 'undefined'){
     init();
   } else {
