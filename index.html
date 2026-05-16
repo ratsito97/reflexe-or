@@ -809,7 +809,24 @@ document.addEventListener('click',function(e){
   }
 });
 
-// ── Doc viewer ──
+// ── Ouvrir URL externe ──
+function openURL(url, title){
+  document.getElementById("dv-t").textContent = title;
+  var body = document.getElementById("dv-b");
+  var ext = url.split(".").pop().toLowerCase();
+  if(ext === "pdf"){
+    body.innerHTML = "<iframe src=\"" + url + "\" style=\"width:100%;height:65vh;border:none;border-radius:8px;background:white\"></iframe>";
+  } else {
+    body.innerHTML = "<img src=\"" + url + "\" style=\"max-width:100%;border-radius:8px\" alt=\"" + title + "\">";
+  }
+  var dl = document.getElementById("dv-dl");
+  dl.href = url;
+  dl.download = url.split("/").pop();
+  document.getElementById("dv").classList.add("on");
+  document.body.style.overflow = "hidden";
+}
+
+// ── Doc viewer (base64) ──
 function openDoc(key,title){
   var d=APP_DATA&&APP_DATA[key];
   if(!d){toast('Document non disponible');return;}
