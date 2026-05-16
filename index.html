@@ -241,21 +241,27 @@ if('serviceWorker' in navigator){
 
 <!-- DOCUMENTS -->
 <div class="pg" id="pg-docs">
-  <div class="hd"><h1>&#128218; Mes Documents</h1><p>Consultez et téléchargez</p></div>
+  <div class="hd"><h1>&#128218; Mes Documents</h1><p>Consultez et telechargez</p></div>
+  <div style="background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.2);border-radius:11px;padding:11px;margin-bottom:12px;font-size:11px;color:rgba(255,255,255,0.6);line-height:1.6">
+    &#128274; Une connexion internet est necessaire pour ouvrir les documents.
+  </div>
+
   <div class="dc">&#127942; Projet Reflexe Or</div>
-  <div class="di" onclick="openDoc('note','Appel a volontaires Ambassadeur')"><span class="dic">&#128226;</span><div class="dit"><div class="dn">Note Appel a volontaires</div><div class="dd">Devenez Ambassadeur Environnement EIC RA</div></div><span class="tag ti">IMAGE</span></div>
-  <div class="di" onclick="openDoc('flash','Flash EIC RA Palier Or 2026')"><span class="dic">&#128240;</span><div class="dit"><div class="dn">Flash EIC RA Fevrier 2026</div><div class="dd">Obtention du Palier Or PACTE</div></div><span class="tag ti">IMAGE</span></div>
-  <div class="di" onclick="openDoc('infographie','Infographie Projet Reflexe Or')"><span class="dic">&#128196;</span><div class="dit"><div class="dn">Infographie Projet Reflexe Or</div><div class="dd">Vue d\'ensemble du projet</div></div><span class="tag ti">IMAGE</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Note_Appel_volontaires.pdf','Note Appel a volontaires')"><span class="dic">&#128226;</span><div class="dit"><div class="dn">Note Appel a volontaires</div><div class="dd">Devenez Ambassadeur Environnement EIC RA</div></div><span class="tag ti">PDF</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Flash_Palier_Or.pdf','Flash EIC RA Palier Or 2026')"><span class="dic">&#128240;</span><div class="dit"><div class="dn">Flash EIC RA Fevrier 2026</div><div class="dd">Obtention du Palier Or PACTE</div></div><span class="tag ti">PDF</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Infographie_Reflexe_Or.pdf','Infographie Projet Reflexe Or')"><span class="dic">&#128196;</span><div class="dit"><div class="dn">Infographie Projet Reflexe Or</div><div class="dd">Vue d'ensemble du projet</div></div><span class="tag ti">PDF</span></div>
+
   <div class="dc">&#128203; Engagements Environnementaux</div>
-  <div class="di" onclick="openDoc('politique','Politique Environnementale 2026')"><span class="dic">&#128203;</span><div class="dit"><div class="dn">Politique Environnementale 2026</div><div class="dd">EIC Rhone-Alpes - Objectif Palier Or</div></div><span class="tag ti">IMAGE</span></div>
-  <div class="di" onclick="openDoc('charte','Charte Environnementale 2026')"><span class="dic">&#128196;</span><div class="dit"><div class="dn">Charte Environnementale 2026</div><div class="dd">Nos 10 engagements terrain quotidiens</div></div><span class="tag ti">IMAGE</span></div>
-  <div class="di" onclick="openDoc('rqpe','Les 9 RQPE - SNCF Reseau')"><span class="dic">&#128202;</span><div class="dit"><div class="dn">Les 9 RQPE</div><div class="dd">Regles Qui Preservent l\'Environnement</div></div><span class="tag tp">36 pages</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Politique_Environnementale_2026.pdf','Politique Environnementale 2026')"><span class="dic">&#128203;</span><div class="dit"><div class="dn">Politique Environnementale 2026</div><div class="dd">EIC Rhone-Alpes - Objectif Palier Or</div></div><span class="tag ti">PDF</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Charte_Environnementale_2026.pdf','Charte Environnementale 2026')"><span class="dic">&#128196;</span><div class="dit"><div class="dn">Charte Environnementale 2026</div><div class="dd">Nos 10 engagements terrain quotidiens</div></div><span class="tag ti">PDF</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/9_RQPE.pdf','Les 9 RQPE - SNCF Reseau')"><span class="dic">&#128202;</span><div class="dit"><div class="dn">Les 9 RQPE</div><div class="dd">Regles Qui Preservent l'Environnement</div></div><span class="tag ti">PDF</span></div>
+
   <div class="dc">&#127807; Kit Ambassadeur - Affiches Ecogestes</div>
-  <div class="di" onclick="openDoc('sobriete','Sobriete Energetique et Eau')"><span class="dic">&#128161;</span><div class="dit"><div class="dn">Sobriete Energetique et Eau</div><div class="dd">Les bons réflexes au bureau</div></div><span class="tag ti">AFFICHE</span></div>
-  <div class="di" onclick="openDoc('dechets','Dechets et Encombrement')"><span class="dic">&#9851;</span><div class="dit"><div class="dn">Dechets et Encombrement</div><div class="dd">Prévenir, trier, valoriser, signaler</div></div><span class="tag ti">AFFICHE</span></div>
-  <div class="di" onclick="openDoc('mobilite','Mobilite Durable')"><span class="dic">&#128663;</span><div class="dit"><div class="dn">Mobilite Durable</div><div class="dd">Écoconduite et mobilité responsable</div></div><span class="tag ti">AFFICHE</span></div>
-  <div class="di" onclick="openDoc('achat','Achat Responsable')"><span class="dic">&#128722;</span><div class="dit"><div class="dn">Achat Responsable</div><div class="dd">Ma boussole verte</div></div><span class="tag ti">AFFICHE</span></div>
-  <div class="di" onclick="openDoc('vigilance','Vigilance Verte')"><span class="dic">&#128065;</span><div class="dit"><div class="dn">Vigilance Verte</div><div class="dd">Signaler c\'est epargner demain</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Affiche_Sobriete.pdf','Sobriete Energetique et Eau')"><span class="dic">&#128161;</span><div class="dit"><div class="dn">Sobriete Energetique et Eau</div><div class="dd">Les bons reflexes au bureau</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Affiche_Dechets.pdf','Dechets et Encombrement')"><span class="dic">&#9851;</span><div class="dit"><div class="dn">Dechets et Encombrement</div><div class="dd">Prevenir, trier, valoriser, signaler</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Affiche_Mobilite.pdf','Mobilite Durable')"><span class="dic">&#128663;</span><div class="dit"><div class="dn">Mobilite Durable</div><div class="dd">Ecoconduite et mobilite responsable</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Affiche_Achat_Responsable.pdf','Achat Responsable')"><span class="dic">&#128722;</span><div class="dit"><div class="dn">Achat Responsable</div><div class="dd">Ma boussole verte</div></div><span class="tag ti">AFFICHE</span></div>
+  <div class="di" onclick="openURL('https://ratsito97.github.io/reflexe-or/docs/Affiche_Vigilance_Verte.pdf','Vigilance Verte')"><span class="dic">&#128065;</span><div class="dit"><div class="dn">Vigilance Verte</div><div class="dd">Signaler c'est epargner demain</div></div><span class="tag ti">AFFICHE</span></div>
 </div>
 
 <!-- DOC VIEWER -->
